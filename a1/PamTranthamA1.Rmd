@@ -1,0 +1,248 @@
+---
+#Pamela Trantham
+title: "EDPS 845 Assignment 1"
+author: "Tony Albano"
+---
+
+## Overview
+
+Demonstrate your mastery of concepts and procedures covered in *An Introduction to R*, chapters 1 through 9. See Appendix A for examples.
+
+Complete this assignment by responding to each question below using your own original code, in addition to answering any questions. Follow Google's [R coding conventions](https://google.github.io/styleguide/Rguide.xml), and use [R markdown](http://rmarkdown.rstudio.com/index.html) formatting for your responses, with example R code written as
+
+```{r}
+# Comment within some example code
+```
+
+Your file should have an Rmd extension, and you should check that it compiles to HTML using the *Knit* command in RStudio (this runs `knitr::knit()` on the file). Note that you can already *Knit* this file to see how it works.
+
+## Exercises
+
+### Chapter 1
+
+1. Show that you can access the home page for the HTML R help menu, as well as help files for individual functions.
+```{r}
+# This opens R help
+help.start()
+```
+
+
+2. Demonstrate correct and incorrect naming of R objects.
+```{r, eval=FALSE}
+#Correct naming of object - Example
+
+object<-c(1,2,3)
+
+#Incorrect naming
+
+21object<- c(1,2,3)
+```
+
+3. How do you list all available objects in the R workspace? And how do you remove individual objects?
+```{r, eval=FALSE}
+#listing
+ls()
+#removing
+rm()
+```
+
+
+### Chapter 2
+
+1. Create and index a vector using a logical, integer, negative integer, and character vector.
+
+```{r}
+#create a logical vector
+#l<- x < 40
+#create an integer vector
+x<- c(1, 2, 3, 4)
+#create a negative integer vector
+y <- x[-(1:3)]
+#create a character vector
+family<- c("Pam", "Ken", "Tom", "Ray")
+```
+
+
+3. Create a simple data frame containing a numeric variable, character variable, and factor with at least 3 levels. Use the data frame to demonstrate how R codes and handles missing data. 
+
+```{r}
+#Simple data frame not removing any NA values
+myfamily<- data.frame(familynumber= x, names= family, col3 = y, na.rm=FALSE)
+print(myfamily)
+```
+
+### Chapter 3
+
+1. Demonstrate how to check and change the modes and attributes of R objects.
+```{r}
+#Check mode of an object
+mode(x)
+#check length of an object
+length(y)
+```
+
+### Chapter 4
+
+1. Complete the exercise on page 17, where you calculate 95% confidence intervals for state mean incomes.
+
+```{r}
+#Page 17
+state <- c("tas", "sa", "qld", "nsw", "nsw", "nt", "wa", "wa",
+"qld", "vic", "nsw", "vic", "qld", "qld", "sa", "tas",
+"sa", "nt", "wa", "vic", "qld", "nsw", "nsw", "wa",
+"sa", "act", "nsw", "vic", "vic", "act")
+statef<-factor(state)
+incomes <- c(60, 49, 40, 61, 64, 60, 59, 54, 62, 69, 70, 42, 56,
+61, 61, 61, 58, 51, 48, 65, 49, 49, 41, 48, 52, 46,
+59, 46, 58, 43)
+
+incmeans <- tapply(incomes, statef, mean)
+stderr <- function(x) sqrt(var(x)/length(x))
+incster<-tapply(incomes, statef, stderr)
+length(incomes)
+n <- table(statef)
+cis<-data.frame(mean=incmeans, stderr=incster, state=names(incmeans),
+  lower=qt(.025, n-1),
+  upper=qt(.025, n-1, lower.tail=FALSE))
+
+```
+
+2. In what order are the levels of ordered factors stored in?
+
+```{r}
+#alphabetical order
+```
+
+### Chapter 5
+
+1. Create an array with dimensions `c(3, 6, 2)` and use it to demonstrate array indexing.
+
+```{r}
+#Create an array with dimensions 3 by 6 by 2
+b <- array(1:36, dim=c(3, 6, 2))
+
+```
+
+2. Create a two dimensional array of 100 integers sampled with replacement from the vector 1:20, and use an index array to set the diagonal values to 0.
+
+```{r}
+#Create random sample
+d<- c(1:20)
+randsample<-sample(d, 100, replace=TRUE)
+#Create array to set diagonal values to 0
+randomarray<- array(data=randsample, dim=c(10, 10))
+i<- array(c(1:10, 10:1),dim=c(10,2))
+randomarray[i]
+randomarray[i]<-0 
+print(randomarray)
+```
+
+3. Construct the same array using the `array()` function and using a vector with the `dim()` set. Prove they are the same.
+
+```{r}
+#Create array using array()
+secondarray<- array(data=randsample, dim=c(4, 25))
+#create same array using dim()
+seconddim<- randsample ; dim(seconddim) <- c(4, 25)
+#prove they are the same
+print(secondarray)
+print(seconddim)
+```
+
+4. Use your array from 5.1, and another with the same dimensions, to demonstrate how arithmetic works with arrays.
+
+```{r}
+#create second array of same size as array b
+c<- array(37:72, dim=c(3, 6, 2))
+#demonstrate arithmetic by multiplying outer product
+bc<- outer(b, c, "*")
+```
+
+5. Show how to clear the dimensions of an array.
+```{r, eval=FALSE}
+vec <- c(X)
+```
+
+### Chapter 6
+
+1. Demonstrate the different ways of subsetting a list.
+
+```{r, eval=FALSE}
+#Subsetting a list
+#One way to subset a list:
+Lst[[1]],Lst[[2]], Lst[[3]]. Lst[[4]]
+#Or
+Lst$name
+
+```
+
+2. What is the difference between giving multiple lists to `list()` versus `c()`?
+```{r}
+#Using the 'list()' command allows the use of existing objects to form lists.  Using the 'c()' command combines components of existing lists together to form new lists.
+```
+
+3. How do data frames in R relate to lists?
+
+```{r}
+# this is a list with the class "data.frame".  They can include restrictions such as having components made up of vectors that all have the same length and row size.  
+```
+
+4. What is the purpose of `attach()`?
+```{r}
+#The 'attach()' function attaches a database to a search path.
+```
+
+### Chapter 7
+
+1. Demonstrate the different approaches to reading in data from an external file.
+```{r, eval=FALSE}
+#This can be done using the following:
+read.table()
+scan()
+data()
+
+```
+
+### Chapter 8
+
+1. Demonstrate the use of distribution functions to simulate data and calculate probabilities and quantiles.
+```{r}
+#Simulate random data with Poisson dist, lambda = 4
+Pdata<-rpois(15, 4)
+#Calculate probabilities for t distribution
+2*pt(-2.43, df = 13)
+#Calculate Quantiles for F(2, 7)
+qf(0.01, 2, 7, lower.tail = FALSE)
+```
+
+2. Simulate data from a t distribution and check their normality.
+```{r}
+#Simulate data from t distribution
+tdata<- rt(30, df = n-1)
+#Examine normality
+stem(tdata)
+hist(tdata)
+shapiro.test(tdata)
+ks.test(tdata, "pnorm", mean = mean(tdata), sd = sqrt(var(tdata)))
+```
+
+### Chapter 9
+
+1. What is the difference between `if() else` and `ifelse()`?
+
+```{r}
+#ifelse() is a vectorized version of the if/else statement and returns a vector the length of the longest argument, whereas the if() else statement evaluates a single logical argment and returns the appropriate value given the statement.
+```
+
+2. Demonstrate the use of a `for()` loop.
+```{r}
+for(i in 1:10) {
+  print(rnorm(10))
+}
+#sapply will perform the same function for each item in vector
+
+sapply(levels(statef), print)
+sapply(levels(statef), nchar)
+
+```
+
