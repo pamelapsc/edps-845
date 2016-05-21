@@ -67,7 +67,8 @@ family<- c("Pam", "Ken", "Tom", "Ray")
 
 ```{r}
 #Simple data frame not removing any NA values
-myfamily<- data.frame(familynumber= x, names= family, col3 = y, na.rm=FALSE)
+myfamily<- data.frame(familynumber= x, names= family, familycolumn=y)
+myfamily[myfamily == 1] <- NA
 print(myfamily)
 ```
 
@@ -75,18 +76,6 @@ print(myfamily)
 
 1. Demonstrate how to check and change the modes and attributes of R objects.
 ```{r}
-#Check mode of an object
-mode(x)
-#check length of an object
-length(y)
-```
-
-### Chapter 4
-
-1. Complete the exercise on page 17, where you calculate 95% confidence intervals for state mean incomes.
-
-```{r}
-#Page 17
 state <- c("tas", "sa", "qld", "nsw", "nsw", "nt", "wa", "wa",
 "qld", "vic", "nsw", "vic", "qld", "qld", "sa", "tas",
 "sa", "nt", "wa", "vic", "qld", "nsw", "nsw", "wa",
@@ -95,6 +84,27 @@ statef<-factor(state)
 incomes <- c(60, 49, 40, 61, 64, 60, 59, 54, 62, 69, 70, 42, 56,
 61, 61, 61, 58, 51, 48, 65, 49, 49, 41, 48, 52, 46,
 59, 46, 58, 43)
+#Check mode of an object
+mode(x)
+#change the mode of an object
+xchar<- as.character(x)
+mode(xchar)
+#check length of an object
+length(y)
+#attributes
+attributes(statef)
+#change attributes
+attrchanged<- attributes(statef)<-NULL
+attributes(attrchanged)
+```
+
+### Chapter 4
+
+1. Complete the exercise on page 17, where you calculate 95% confidence intervals for state mean incomes.
+
+```{r}
+#Page 17
+
 
 incmeans <- tapply(incomes, statef, mean)
 stderr <- function(x) sqrt(var(x)/length(x))
@@ -159,26 +169,29 @@ bc<- outer(b, c, "*")
 ```
 
 5. Show how to clear the dimensions of an array.
-```{r, eval=FALSE}
-vec <- c(X)
+```{r}
+vec <- c(bc)
 ```
 
 ### Chapter 6
 
 1. Demonstrate the different ways of subsetting a list.
 
-```{r, eval=FALSE}
+```{r}
 #Subsetting a list
 #One way to subset a list:
-Lst[[1]],Lst[[2]], Lst[[3]]. Lst[[4]]
+
+mtcars[[1]]
 #Or
-Lst$name
+mtcars$cyl
 
 ```
 
 2. What is the difference between giving multiple lists to `list()` versus `c()`?
 ```{r}
 #Using the 'list()' command allows the use of existing objects to form lists.  Using the 'c()' command combines components of existing lists together to form new lists.
+newlist <- list(mtcars, randsample)
+newlist2 <- c(mtcars, randsample)
 ```
 
 3. How do data frames in R relate to lists?
@@ -189,17 +202,17 @@ Lst$name
 
 4. What is the purpose of `attach()`?
 ```{r}
-#The 'attach()' function attaches a database to a search path.
+#The 'attach()' function attaches a database to a search path.  This allows the use to refer to the variables by their names rather than as components of a dataframe. For example, if the dataframe 'mtcars' is not attached, you would have to call the cylinder column in the database with 'mtcars$cyl'.  However, if you attached the mtcars data, you could just use 'cyl' to refer to this column.
 ```
 
 ### Chapter 7
 
 1. Demonstrate the different approaches to reading in data from an external file.
-```{r, eval=FALSE}
+```{r}
 #This can be done using the following:
-read.table()
-scan()
-data()
+readx<- read.table("/Users/pamela/Desktop/EDPS 845/edps-845/a1/selfeff.txt", header=TRUE, row.names = 1)
+scanx <- scan("/Users/pamela/Desktop/EDPS 845/edps-845/a1/selfeff.txt", what="character",skip=1,quiet=TRUE)
+datax<- data(cars)
 
 ```
 
@@ -232,6 +245,18 @@ ks.test(tdata, "pnorm", mean = mean(tdata), sd = sqrt(var(tdata)))
 
 ```{r}
 #ifelse() is a vectorized version of the if/else statement and returns a vector the length of the longest argument, whereas the if() else statement evaluates a single logical argment and returns the appropriate value given the statement.
+
+#example ifelse()
+ifelse(randomarray,x,y)
+
+#example if()else
+f<-0 
+if (f< 0) {
+   print("Negative number")
+} else if (f > 0) {
+   print("Positive number")
+} else
+   print("Zero")
 ```
 
 2. Demonstrate the use of a `for()` loop.
