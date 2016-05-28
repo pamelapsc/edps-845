@@ -91,7 +91,7 @@ apply(test$test1[, 1:4], 2, tapply, test$test1$schoolid, dstudy)
 
 ```{r}
 # More clear to just use for loops
-for(i in names(test)) {
+for(i in names(mydata)) {
   for(j in 1:4) {
     print(tapply(test[[i]][, j], test[[i]]$schoolid, epmr::dstudy))
   }
@@ -112,10 +112,15 @@ for(i in names(test)) {
 # Converting factor to character is key when using this as an
 # indexing object
 m1items <- as.character(PISA$items$itemid[PISA$items$clusterid == "m1"])
+
 # For all students taking m1
-rstudy(PISA$students[, m1items])
+rex <- rstudy(PISA$students[, m1items])
+
 # For all students in booklet 1, i.e., test1, taking m1
 rstudy(PISA$students[PISA$students$bookid == 1, m1items])
+
+
+
 ```
 
 6. We know that any test administered in written form will require, to some extent, reading ability, though the test itself may not be intended to measure reading ability. We also know that science often involves some amount of math ability. Use linear models to examine the relationships between science, as a dependent variable, and math and reading, as independent variables. Note that only 6 of the 13 tests contain a math, reading, and science subtest. If a test contains more than one subtest in a subject area, choose one. Summarize results across these 6 tests.
