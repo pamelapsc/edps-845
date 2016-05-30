@@ -1,0 +1,76 @@
+---
+title: "mixRaschTools Vignettes"
+author: "Pamela S Trantham"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mixRaschTools Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+These vignettes summarize the methods needed to use mixRaschTools to create a plot of item patameterss which incudes multiple classes for mixed Rasch models, and to create a table containing average ability levels by class.
+
+
+**Plotting Function**
+
+Sometimes it is useful to examine the differences between the item parameters between classes.  This function creates a plot containing the item parameters of each class to allow a quick examination of how items vary by class.
+```{r, include=FALSE}
+library(knitr)
+```
+
+Using the example data included in the package:
+
+```{r, include=FALSE}
+load("/Users/pamela/Desktop/EDPS 845/edps-845/Project/threeclass-ex.rda")
+load("/Users/pamela/Desktop/EDPS 845/edps-845/Project/fourclass-ex.rda")
+mixRasch.plot <- function(x, ...){
+  nc<- length(x$LatentClass)
+    plottemp <- sapply(x$LatentClass, function(x) x$item.par$delta.i)
+    matplot(plottemp, type = "o", main = "Item Parameters by Class", xlab = "Items", ylab = "Parameters", pch = 20, bg = 1:nc)
+    abline(h = 0, lty = 2)
+    par(mfrow = c(1, 2))
+}
+
+```
+
+
+
+```{r, fig.keep=TRUE, fig.cap= "Three Class Model", fig.height=3, fig.width= 6}
+mixRasch.plot(threeclass_ex)
+```
+
+
+
+```{r, fig.keep=TRUE, fig.cap= "Four Class Model", fig.height=3, fig.width= 6}
+mixRasch.plot(fourclass_ex)
+```
+
+
+**Average Theta Function**
+
+It is also useful to evaluate the different average ability levels obtained by class in a mixed Rasch model.  The avg.theta function returns a table of average ability for each class found in the model.
+
+Using the example models included in the package:
+```{r, include=FALSE}
+
+avg.theta<- function(x){
+  nc<- length(x$LatentClass)
+  outtheta <- sapply(x$LatentClass, function(x) mean(x$person.par$theta))
+  return(outtheta)
+}
+```
+
+```{r}
+avg.theta(threeclass_ex)
+avg.theta(fourclass_ex)
+```
+
+
+
+
+
+
+
+

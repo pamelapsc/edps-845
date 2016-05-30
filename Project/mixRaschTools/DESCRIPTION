@@ -5,6 +5,8 @@ Version: 0.1
 Date: 2016-05-27
 Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
 Description: More about what it does (maybe more than one line)
+Suggests: knitr, rmarkdown, mixRasch
+VignetteBuilder: knitr
 License: What license is it under?
 LazyData: TRUE
 RoxygenNote: 5.0.1
