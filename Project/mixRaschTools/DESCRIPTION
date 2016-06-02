@@ -14,7 +14,8 @@ Encoding: UTF-8
 LazyData: true
 Suggests:
     knitr,
-    rmarkdown
-    mixRasch
+    rmarkdown,
+    mixRasch,
+    testthat
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
