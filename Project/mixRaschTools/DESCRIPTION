@@ -2,20 +2,21 @@ Package: mixRaschTools
 Title: Plotting and Average Theta Functions for Multiple Class Mixed Rasch
     Models
 Version: 1.1
-Authors@R: person(“Pamela”, “Trantham”, email = “pamelapsc@yahoo.com”, role = c("aut", "cre"))
+Authors@R: c(person("Pamela", "Trantham", role = c("aut", "cre"), 
+                  email = "pamelapsc@yahoo.com"))
+Author: Pamela Trantham [aut, cre]
 Description: This package provides supplemental functions for the mixRasch
     package, including a plotting function to compare item parameters for multiple
     class models and a function that provides average theta values for each class in
     a mixture model.
 Depends:
     R (>= 3.3.0)
-License: None
+License: GPL
 Encoding: UTF-8
 LazyData: true
 Suggests:
     knitr,
     rmarkdown,
     mixRasch,
-    testthat
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
