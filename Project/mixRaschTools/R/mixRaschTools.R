@@ -41,7 +41,6 @@ mixRasch.plot <- function(x, ...){
 #' avg.theta(threeclass_ex)
 #' @export
 avg.theta<- function(x){
-  nc<- length(x$LatentClass)
     outtheta <- sapply(x$LatentClass, function(x) mean(x$person.par$theta))
   return(outtheta)
 }
